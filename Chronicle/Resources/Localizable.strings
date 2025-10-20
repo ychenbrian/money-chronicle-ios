@@ -1,0 +1,8 @@
+/* Localizable.strings */
+
+// MARK: - Tab Bar
+
+"tab.transactions.title" = "Trans.";
+"tab.stats.title" = "Stats";
+"tab.accounts.title" = "Accounts";
+"tab.settings.title" = "Settings";
