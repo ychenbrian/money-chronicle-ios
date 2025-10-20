@@ -6,5 +6,4 @@ class AccountsViewModel: BaseViewModel {
 
     let error = PublishSubject<Error>()
     let event = PublishRelay<String>()
-    let accounts: BehaviorRelay<[Account]> = BehaviorRelay(value: [])
 }

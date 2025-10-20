@@ -6,3 +6,27 @@
 "tab.stats.title" = "Stats";
 "tab.accounts.title" = "Accounts";
 "tab.settings.title" = "Settings";
+
+
+// MARK: - Enum
+
+"transactionCategory.foodAndDrink" = "Food & Drink";
+"transactionCategory.groceries" = "Groceries";
+"transactionCategory.transportation" = "Transportation";
+"transactionCategory.housing" = "Housing";
+"transactionCategory.utilities" = "Utilities";
+"transactionCategory.entertainment" = "Entertainment";
+"transactionCategory.shopping" = "Shopping";
+"transactionCategory.clothing" = "Clothing";
+"transactionCategory.health" = "Health";
+"transactionCategory.education" = "Education";
+"transactionCategory.travel" = "Travel";
+"transactionCategory.gifts" = "Gifts";
+"transactionCategory.subscriptions" = "Subscriptions";
+"transactionCategory.personalCare" = "Personal Care";
+"transactionCategory.others" = "Others";
+
+"transactionSource.cash" = "Cash";
+"transactionSource.accounts" = "Accounts";
+"transactionSource.debit_card" = "Debit Card";
+"transactionSource.credit_card" = "Credit Card";
