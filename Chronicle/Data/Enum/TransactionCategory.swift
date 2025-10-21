@@ -17,8 +17,9 @@ enum TransactionCategory: String, CaseIterable, Codable {
     case personalCare = "personal_care"
     case others
 
-    var localized: String {
-        String(localized: "transactionCategory.\(rawValue)")
+    var displayText: String {
+        let key = "transaction.category.\(rawValue)"
+        return NSLocalizedString(key, comment: "")
     }
 
     var iconName: String {

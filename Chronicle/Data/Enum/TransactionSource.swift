@@ -8,8 +8,9 @@ enum TransactionSource: String, CaseIterable, Codable {
     case debitCard = "debit_card"
     case creditCard = "credit_card"
 
-    var localized: String {
-        String(localized: "transactionSource.\(rawValue)")
+    var displayText: String {
+        let key = "transaction.source.\(rawValue)"
+        return NSLocalizedString(key, comment: "")
     }
 
     var iconName: String {

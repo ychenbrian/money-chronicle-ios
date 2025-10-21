@@ -2,7 +2,7 @@
 
 // MARK: - Tab Bar
 
-"tab.transactions.title" = "Trans.";
+"tab.transaction.title" = "Trans.";
 "tab.stats.title" = "Stats";
 "tab.accounts.title" = "Accounts";
 "tab.settings.title" = "Settings";
@@ -10,23 +10,28 @@
 
 // MARK: - Enum
 
-"transactionCategory.foodAndDrink" = "Food & Drink";
-"transactionCategory.groceries" = "Groceries";
-"transactionCategory.transportation" = "Transportation";
-"transactionCategory.housing" = "Housing";
-"transactionCategory.utilities" = "Utilities";
-"transactionCategory.entertainment" = "Entertainment";
-"transactionCategory.shopping" = "Shopping";
-"transactionCategory.clothing" = "Clothing";
-"transactionCategory.health" = "Health";
-"transactionCategory.education" = "Education";
-"transactionCategory.travel" = "Travel";
-"transactionCategory.gifts" = "Gifts";
-"transactionCategory.subscriptions" = "Subscriptions";
-"transactionCategory.personalCare" = "Personal Care";
-"transactionCategory.others" = "Others";
+"transaction.category.food_and_drink" = "Food & Drink";
+"transaction.category.groceries" = "Groceries";
+"transaction.category.transportation" = "Transportation";
+"transaction.category.housing" = "Housing";
+"transaction.category.utilities" = "Utilities";
+"transaction.category.entertainment" = "Entertainment";
+"transaction.category.shopping" = "Shopping";
+"transaction.category.clothing" = "Clothing";
+"transaction.category.health" = "Health";
+"transaction.category.education" = "Education";
+"transaction.category.travel" = "Travel";
+"transaction.category.gifts" = "Gifts";
+"transaction.category.subscriptions" = "Subscriptions";
+"transaction.category.personal_care" = "Personal Care";
+"transaction.category.others" = "Others";
 
-"transactionSource.cash" = "Cash";
-"transactionSource.accounts" = "Accounts";
-"transactionSource.debit_card" = "Debit Card";
-"transactionSource.credit_card" = "Credit Card";
+"transaction.source.cash" = "Cash";
+"transaction.source.accounts" = "Accounts";
+"transaction.source.debit_card" = "Debit Card";
+"transaction.source.credit_card" = "Credit Card";
+
+
+// MARK: - Transaction View Controller
+
+"transaction.vc.title" = "Transaction";

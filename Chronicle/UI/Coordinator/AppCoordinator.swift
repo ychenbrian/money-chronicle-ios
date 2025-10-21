@@ -18,7 +18,7 @@ class AppCoordinator: Coordinator {
         // Transactions Tab
         let transactionsNav = UINavigationController()
         transactionsNav.tabBarItem = UITabBarItem(
-            title: String(localized: "tab.transactions.title"),
+            title: String(localized: "tab.transaction.title"),
             image: UIImage(systemName: "list.bullet.rectangle"),
             selectedImage: UIImage(systemName: "list.bullet.rectangle.fill")
         )
