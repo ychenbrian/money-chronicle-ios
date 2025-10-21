@@ -1,0 +1,12 @@
+<%- includeFile("./../Core/Core.meta.swift") %>
+<%- includeFile("./../Core/MockParameter.meta.swift") %>
+
+<%- includeFile("ModelsMock.meta.swift") %>
+
+// sourcery:file:Mock.swift
+
+// swiftlint:disable all
+
+<%= generateModelsMockOutput() %>
+
+// sourcery:end

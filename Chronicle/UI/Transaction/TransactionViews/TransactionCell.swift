@@ -108,12 +108,7 @@ class TransactionCell: UITableViewCell {
             make.bottom.lessThanOrEqualToSuperview().offset(-12)
             make.centerY.equalToSuperview()
         }
-
-        categoryImageView.snp.makeConstraints { make in
-            make.height.equalToSuperview().inset(8)
-            make.center.equalToSuperview()
-        }
-
+        
         containerView.addSubview(categoryLabel)
         containerView.addSubview(amountLabel)
         containerView.addSubview(timeSourceLabel)
@@ -149,9 +144,22 @@ class TransactionCell: UITableViewCell {
         if let icon = UIImage(systemName: transaction.category?.iconName ?? "") {
             categoryImageView.image = icon
             categoryImageView.tintColor = .black
-            let aspectRatio = icon.size.width / icon.size.height
-            categoryImageView.snp.makeConstraints { make in
-                make.width.equalTo(categoryImageView.snp.height).multipliedBy(aspectRatio)
+            categoryImageView.contentMode = .scaleAspectFit
+
+            let ratio = icon.size.width / max(icon.size.height, 1)
+
+            categoryImageView.snp.remakeConstraints { make in
+                make.center.equalToSuperview()
+                make.width.lessThanOrEqualToSuperview().inset(6)
+                make.height.lessThanOrEqualToSuperview().inset(6)
+
+                if ratio >= 1 {
+                    make.width.equalToSuperview().inset(6)
+                    make.height.equalTo(categoryImageView.snp.width).dividedBy(ratio)
+                } else {
+                    make.height.equalToSuperview().inset(6)
+                    make.width.equalTo(categoryImageView.snp.height).multipliedBy(ratio)
+                }
             }
         }
     }

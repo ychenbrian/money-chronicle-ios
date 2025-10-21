@@ -1,0 +1,48 @@
+--exclude Chronicle_iosTests/Mock/Data/Mock.swift
+
+# Disable rules that correspond to disabled SwiftLint rules
+--disable wrapMultilineStatementBraces
+--disable redundantParens
+--disable trailingSpace
+--disable todos
+--disable redundantGet
+--disable redundantType
+--disable enumnamespaces
+--disable preferForLoop
+--disable preferKeyPath
+--disable unusedArguments
+--disable redundantSelf
+--disable hoistPatternLet
+--disable hoistTry
+--disable initCoderUnavailable
+
+# Enable rules that correspond to opt-in SwiftLint rules
+# Add rules later if needed
+
+# Formatting rules
+--maxwidth 200
+--indent 4
+--allman false
+--enable blockComments
+--enable consecutiveSpaces
+--enable linebreakAtEndOfFile
+--enable spaceInsideBrackets
+--enable spaceInsideComments
+--enable spaceInsideGenerics
+--enable spaceInsideParens
+
+# Swift specific rules
+--importgrouping testable-last
+--marktypes never
+--markextensions always
+--header strip
+--semicolons inline
+--decimalgrouping ignore
+--commas inline
+--trimwhitespace always
+--comments ignore
+--organizationmode type
+
+# Explicitly disable some rules that might conflict with SwiftLint
+--disable strongOutlets
+--disable preferKeyPath

@@ -10,7 +10,7 @@ class TransactionsViewController: BaseViewController {
 
     // MARK: - Properties
 
-    private var viewModel: TransactionsViewModel!
+    private var viewModel: TransactionViewModel!
     private let disposeBag = DisposeBag()
 
     private let titleCellID = "TransactionTitleCell"
@@ -20,7 +20,7 @@ class TransactionsViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: TransactionsViewModel) {
+    convenience init(viewModel: TransactionViewModel) {
         self.init()
         self.viewModel = viewModel
     }
@@ -56,7 +56,8 @@ class TransactionsViewController: BaseViewController {
     private func setupObserve() {
         viewModel.transGroups
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [weak self] groups in
+                self?.transactionGroups = groups
                 self?.tableView.reloadData()
             })
             .disposed(by: disposeBag)

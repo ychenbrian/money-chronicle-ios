@@ -14,6 +14,7 @@
 		319639A12EA67450007851D2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 319639A02EA67450007851D2 /* RxRelay */; };
 		319639A32EA67450007851D2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 319639A22EA67450007851D2 /* RxSwift */; };
 		319639A52EA67450007851D2 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 319639A42EA67450007851D2 /* RxTest */; };
+		31963C912EA7F3EF007851D2 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 31963C902EA7F3EF007851D2 /* Fakery */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,11 @@
 		319639282EA6437E007851D2 /* Chronicle_Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chronicle_Staging.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		319639352EA64380007851D2 /* Chronicle_iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Chronicle_iosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3196393F2EA64380007851D2 /* Chronicle_iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Chronicle_iosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		31963BC32EA7C6C3007851D2 /* Sourcery.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = Sourcery.yml; sourceTree = "<group>"; };
+		31963BC72EA7C73C007851D2 /* Core.meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.meta.swift; sourceTree = "<group>"; };
+		31963BC82EA7C74D007851D2 /* MockParameter.meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockParameter.meta.swift; sourceTree = "<group>"; };
+		31963BCA2EA7C76C007851D2 /* ModelsMock.meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelsMock.meta.swift; sourceTree = "<group>"; };
+		31963BCB2EA7C781007851D2 /* ModelsMock.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = text; path = ModelsMock.swifttemplate; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -76,6 +82,7 @@
 			files = (
 				319639A52EA67450007851D2 /* RxTest in Frameworks */,
 				3196399D2EA67450007851D2 /* RxBlocking in Frameworks */,
+				31963C912EA7F3EF007851D2 /* Fakery in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +99,7 @@
 		3196391F2EA6437E007851D2 = {
 			isa = PBXGroup;
 			children = (
+				31963BBB2EA7C2FB007851D2 /* Meta */,
 				3196392A2EA6437E007851D2 /* Chronicle */,
 				319639382EA64380007851D2 /* Chronicle_iosTests */,
 				319639422EA64380007851D2 /* Chronicle_iosUITests */,
@@ -109,6 +117,50 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		31963BBB2EA7C2FB007851D2 /* Meta */ = {
+			isa = PBXGroup;
+			children = (
+				31963BC52EA7C72A007851D2 /* Templates */,
+				31963BBD2EA7C304007851D2 /* Configuration */,
+			);
+			path = Meta;
+			sourceTree = "<group>";
+		};
+		31963BBD2EA7C304007851D2 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				31963BC32EA7C6C3007851D2 /* Sourcery.yml */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		31963BC52EA7C72A007851D2 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				31963BC92EA7C762007851D2 /* ModelsMock */,
+				31963BC62EA7C732007851D2 /* Core */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		31963BC62EA7C732007851D2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				31963BC82EA7C74D007851D2 /* MockParameter.meta.swift */,
+				31963BC72EA7C73C007851D2 /* Core.meta.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		31963BC92EA7C762007851D2 /* ModelsMock */ = {
+			isa = PBXGroup;
+			children = (
+				31963BCB2EA7C781007851D2 /* ModelsMock.swifttemplate */,
+				31963BCA2EA7C76C007851D2 /* ModelsMock.meta.swift */,
+			);
+			path = ModelsMock;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -116,6 +168,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 319639492EA64380007851D2 /* Build configuration list for PBXNativeTarget "Chronicle_Staging" */;
 			buildPhases = (
+				31963BCC2EA7C7B5007851D2 /* Run Sourcery */,
 				319639242EA6437E007851D2 /* Sources */,
 				319639252EA6437E007851D2 /* Frameworks */,
 				319639262EA6437E007851D2 /* Resources */,
@@ -159,6 +212,7 @@
 			packageProductDependencies = (
 				3196399C2EA67450007851D2 /* RxBlocking */,
 				319639A42EA67450007851D2 /* RxTest */,
+				31963C902EA7F3EF007851D2 /* Fakery */,
 			);
 			productName = "money-chronicle-iosTests";
 			productReference = 319639352EA64380007851D2 /* Chronicle_iosTests.xctest */;
@@ -223,6 +277,7 @@
 				319639952EA6732F007851D2 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				319639982EA673CA007851D2 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				3196399B2EA67450007851D2 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				31963C8F2EA7F3EF007851D2 /* XCRemoteSwiftPackageReference "Fakery" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 319639292EA6437E007851D2 /* Products */;
@@ -259,6 +314,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		31963BCC2EA7C7B5007851D2 /* Run Sourcery */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Sourcery";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nSOURCERY_PATH=\"${PROJECT_DIR}/sourcery\"\n\nif [ \"${CONFIGURATION}\" != \"Release\" ]; then\n    if [ -f \"$SOURCERY_PATH\" ]; then\n        echo \"Using local Sourcery binary at: $SOURCERY_PATH\"\n        \"$SOURCERY_PATH\" --config \"$PROJECT_DIR/Meta/Configuration/Sourcery.yml\" --prune\n    else\n        echo \"ERROR: Sourcery binary not found at $SOURCERY_PATH\"\n        echo \"Please ensure the Sourcery binary is placed in the project root directory\"\n        exit 1\n    fi\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		319639242EA6437E007851D2 /* Sources */ = {
@@ -425,6 +501,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Staging - Money Chronicle";
@@ -472,6 +549,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Staging - Money Chronicle";
@@ -680,6 +758,14 @@
 				minimumVersion = 6.9.0;
 			};
 		};
+		31963C8F2EA7F3EF007851D2 /* XCRemoteSwiftPackageReference "Fakery" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vadymmarkov/Fakery";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -717,6 +803,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3196399B2EA67450007851D2 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxTest;
+		};
+		31963C902EA7F3EF007851D2 /* Fakery */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31963C8F2EA7F3EF007851D2 /* XCRemoteSwiftPackageReference "Fakery" */;
+			productName = Fakery;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

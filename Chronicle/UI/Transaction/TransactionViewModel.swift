@@ -2,7 +2,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class TransactionsViewModel: BaseViewModel {
+class TransactionViewModel: BaseViewModel {
     typealias Event = String
 
     // MARK: - BaseViewModel
@@ -78,12 +78,60 @@ class TransactionsViewModel: BaseViewModel {
         let dayBeforeYesterday = Calendar.current.date(byAdding: .day, value: -2, to: Date())
 
         let mock: [UIModel.Transaction] = [
-            UIModel.Transaction(id: "1", title: "Lunch", amount: 12.5, date: Date(), source: TransactionSource.allCases.randomElement()!, category: TransactionCategory.allCases.randomElement()!, note: ""),
-            UIModel.Transaction(id: "2", title: "Bus", amount: 2.5, date: yesterday, source: TransactionSource.allCases.randomElement()!, category: TransactionCategory.allCases.randomElement()!, note: ""),
-            UIModel.Transaction(id: "3", title: "Groceries", amount: 35.0, date: Date(), source: TransactionSource.allCases.randomElement()!, category: TransactionCategory.allCases.randomElement()!, note: ""),
-            UIModel.Transaction(id: "4", title: "Dinner", amount: 12.5, date: dayBeforeYesterday, source: TransactionSource.allCases.randomElement()!, category: TransactionCategory.allCases.randomElement()!, note: ""),
-            UIModel.Transaction(id: "5", title: "Education", amount: 2.5, date: dayBeforeYesterday, source: TransactionSource.allCases.randomElement()!, category: TransactionCategory.allCases.randomElement()!, note: ""),
-            UIModel.Transaction(id: "6", title: "Groceries", amount: 35.0, date: Date(), source: TransactionSource.allCases.randomElement()!, category: TransactionCategory.allCases.randomElement()!, note: ""),
+            UIModel.Transaction(
+                id: "1",
+                title: "Lunch",
+                amount: 12.5,
+                date: Date(),
+                source: TransactionSource.allCases.randomElement()!,
+                category: TransactionCategory.allCases.randomElement()!,
+                note: ""
+            ),
+            UIModel.Transaction(
+                id: "2",
+                title: "Bus",
+                amount: 2.5,
+                date: yesterday,
+                source: TransactionSource.allCases.randomElement()!,
+                category: TransactionCategory.allCases.randomElement()!,
+                note: ""
+            ),
+            UIModel.Transaction(
+                id: "3",
+                title: "Groceries",
+                amount: 35.0,
+                date: Date(),
+                source: TransactionSource.allCases.randomElement()!,
+                category: TransactionCategory.allCases.randomElement()!,
+                note: ""
+            ),
+            UIModel.Transaction(
+                id: "4",
+                title: "Dinner",
+                amount: 12.5,
+                date: dayBeforeYesterday,
+                source: TransactionSource.allCases.randomElement()!,
+                category: TransactionCategory.allCases.randomElement()!,
+                note: ""
+            ),
+            UIModel.Transaction(
+                id: "5",
+                title: "Education",
+                amount: 2.5,
+                date: dayBeforeYesterday,
+                source: TransactionSource.allCases.randomElement()!,
+                category: TransactionCategory.allCases.randomElement()!,
+                note: ""
+            ),
+            UIModel.Transaction(
+                id: "6",
+                title: "Groceries",
+                amount: 35.0,
+                date: Date(),
+                source: TransactionSource.allCases.randomElement()!,
+                category: TransactionCategory.allCases.randomElement()!,
+                note: ""
+            )
         ]
         updateTransactions(with: mock)
     }

@@ -10,7 +10,7 @@ let package = Package(
         .library(
             name: "money-chronicle-ios",
             targets: ["money-chronicle-ios"]
-        ),
+        )
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -20,6 +20,6 @@ let package = Package(
         .testTarget(
             name: "money-chronicle-iosTests",
             dependencies: ["money-chronicle-ios"]
-        ),
+        )
     ]
 )

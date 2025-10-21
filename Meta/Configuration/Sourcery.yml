@@ -1,0 +1,12 @@
+sources:
+    include:
+        - ../../Chronicle/Data
+
+templates:
+    - ../Templates/ModelsMock/ModelsMock.swifttemplate
+
+output:
+    ../../Chronicle_iosTests/Mock/Data
+
+args:
+    projectName: Chronicle

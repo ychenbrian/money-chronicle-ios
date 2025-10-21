@@ -9,7 +9,7 @@ class TransactionsCoordinator: Coordinator {
     }
 
     func start() {
-        let viewModel = TransactionsViewModel()
+        let viewModel = TransactionViewModel()
         let viewController = TransactionsViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: false)
     }

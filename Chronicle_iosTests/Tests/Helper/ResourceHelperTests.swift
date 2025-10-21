@@ -1,6 +1,6 @@
-@testable import Chronicle_Staging
 import UIKit
 import XCTest
+@testable import Chronicle_Staging
 
 class ResourceHelperTests: XCTestCase {
     func testColorAvailablity() {

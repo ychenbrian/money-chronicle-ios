@@ -13,6 +13,18 @@ extension DBModel {
     }
 }
 
+extension APIModel {
+    struct Transaction: Codable, Equatable {
+        var id: String?
+        var title: String?
+        var amount: Double?
+        var date: Date?
+        var source: TransactionSource?
+        var category: TransactionCategory?
+        var note: String?
+    }
+}
+
 extension UIModel {
     class Transaction: Identifiable {
         var id: String?
@@ -41,6 +53,16 @@ extension UIModel {
             source = TransactionSource.from(dbTransaction.source)
             category = TransactionCategory.from(dbTransaction.category)
             note = dbTransaction.note
+        }
+        
+        init(_ apiTransaction: APIModel.Transaction) {
+            id = apiTransaction.id
+            title = apiTransaction.title
+            amount = apiTransaction.amount
+            date = apiTransaction.date
+            source = apiTransaction.source
+            category = apiTransaction.category
+            note = apiTransaction.note
         }
     }
 }
