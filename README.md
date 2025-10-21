@@ -8,6 +8,12 @@ Money Chronicle is an iOS companion app built with UIKit, SnapKit, RxSwift, and 
 
 Designed for simplicity and speed, Money Chronicle helps you stay aware of your daily spending and manage your budget without clutter or complexity.
 
+## 📱 Screenshot
+
+<p align="center">
+  <img src="Assets/screenshot.png" alt="Transactions Screen" width="300">
+</p>
+
 ## Features
 
 ### Current
