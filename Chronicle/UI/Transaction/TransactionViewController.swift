@@ -16,8 +16,6 @@ class TransactionsViewController: BaseViewController {
     private let titleCellID = "TransactionTitleCell"
     private let transCellID = "TransactionCell"
 
-    private var transactionGroups: [UIModel.TransactionGroup] = []
-
     // MARK: - Lifecycle
 
     convenience init(viewModel: TransactionViewModel) {
@@ -29,6 +27,7 @@ class TransactionsViewController: BaseViewController {
         super.viewDidLoad()
         setupView()
         setupObserve()
+        setupBinding()
         viewModel.loadMockTransactions()
     }
 
@@ -49,81 +48,37 @@ class TransactionsViewController: BaseViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
 
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 
-    private func setupObserve() {
-        viewModel.transGroups
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] groups in
-                self?.transactionGroups = groups
-                self?.tableView.reloadData()
-            })
-            .disposed(by: disposeBag)
-    }
-}
-
-// MARK: - UITableViewDataSource
-
-extension TransactionsViewController: UITableViewDataSource {
-    func numberOfSections(in _: UITableView) -> Int {
-        return transactionGroups.count
-    }
-
-    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transactionGroups[section].transactions.count + 1
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let group = transactionGroups[indexPath.section]
-
-        if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: titleCellID, for: indexPath) as? TransactionTitleCell else {
-                return UITableViewCell()
+    private func setupObserve() {}
+    
+    private func setupBinding() {
+        viewModel.rows
+            .drive(tableView.rx.items) { [weak self] tableView, _, item in
+                guard let self = self else { return UITableViewCell() }
+                switch item {
+                case .title(let group):
+                    let cell = tableView.dequeueReusableCell(withIdentifier: self.titleCellID) as! TransactionTitleCell
+                    cell.transactionGroup = group
+                    cell.selectionStyle = .none
+                    return cell
+                case .transaction(let tx):
+                    let cell = tableView.dequeueReusableCell(withIdentifier: self.transCellID) as! TransactionCell
+                    cell.transaction = tx
+                    cell.selectionStyle = .none
+                    return cell
+                }
             }
-            cell.transactionGroup = group
-            cell.selectionStyle = .none
-            return cell
-        }
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: transCellID, for: indexPath) as? TransactionCell else {
-            return UITableViewCell()
-        }
-
-        let transactionIndex = indexPath.row - 1
-        cell.transaction = group.transactions[transactionIndex]
-        cell.selectionStyle = .none
-        return cell
+            .disposed(by: disposeBag)
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension TransactionsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-
-        guard indexPath.row > 0 else { return }
-
-        let group = transactionGroups[indexPath.section]
-        let transactionIndex = indexPath.row - 1
-        let selectedTransaction = group.transactions[transactionIndex]
-    }
-
-    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-        return .leastNormalMagnitude
-    }
-
-    func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
-        return .leastNormalMagnitude
-    }
-
-    func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? {
-        return nil
-    }
-
-    func tableView(_: UITableView, viewForFooterInSection _: Int) -> UIView? {
-        return nil
-    }
+    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat { .leastNormalMagnitude }
+    func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat { .leastNormalMagnitude }
+    func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? { nil }
+    func tableView(_: UITableView, viewForFooterInSection _: Int) -> UIView? { nil }
 }

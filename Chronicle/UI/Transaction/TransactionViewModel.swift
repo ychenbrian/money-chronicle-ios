@@ -16,6 +16,23 @@ class TransactionViewModel: BaseViewModel {
     var transGroups: Observable<[UIModel.TransactionGroup]> {
         transGroupsRelay.asObservable()
     }
+    
+    // MARK: - Table Row
+    
+    enum Row {
+        case title(UIModel.TransactionGroup)
+        case transaction(UIModel.Transaction)
+    }
+    
+    var rows: Driver<[Row]> {
+        transGroupsRelay
+            .asDriver()
+            .map { groups in
+                groups.flatMap { group in
+                    [.title(group)] + group.transactions.map(Row.transaction)
+                }
+            }
+    }
 
     // MARK: - Public actions
 
