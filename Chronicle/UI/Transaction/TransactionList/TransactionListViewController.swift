@@ -3,13 +3,33 @@ import RxSwift
 import SnapKit
 import UIKit
 
-class TransactionsViewController: BaseViewController {
+protocol TransactionListViewControllerDelegate: AnyObject {
+    func transactionListViewControllerAddNewTransaction()
+}
+
+class TransactionsListViewController: BaseViewController {
     // MARK: - UI Components
 
     private let tableView = UITableView(frame: .zero, style: .grouped)
-
+    
+    private lazy var newTransactionButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("+", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 32, weight: .bold)
+        button.tintColor = .white
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 28
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.25
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowRadius = 4
+        button.addTarget(self, action: #selector(startTransactionNew), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Properties
 
+    private(set) weak var delegate: TransactionListViewControllerDelegate?
     private var viewModel: TransactionViewModel!
     private let disposeBag = DisposeBag()
 
@@ -18,9 +38,10 @@ class TransactionsViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: TransactionViewModel) {
+    convenience init(viewModel: TransactionViewModel, delegate: TransactionListViewControllerDelegate) {
         self.init()
         self.viewModel = viewModel
+        self.delegate = delegate
     }
 
     override func viewDidLoad() {
@@ -29,6 +50,13 @@ class TransactionsViewController: BaseViewController {
         setupObserve()
         setupBinding()
         viewModel.loadMockTransactions()
+    }
+    
+    // MARK: - Action
+    
+    @objc
+    private func startTransactionNew() {
+        self.delegate?.transactionListViewControllerAddNewTransaction()
     }
 
     // MARK: - Setup
@@ -49,6 +77,12 @@ class TransactionsViewController: BaseViewController {
         tableView.backgroundColor = .clear
 
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        view.addSubview(newTransactionButton)
+        newTransactionButton.snp.makeConstraints { make in
+            make.width.height.equalTo(56)
+            make.trailing.bottom.equalTo(view.safeAreaLayoutGuide).offset(-24)
+        }
     }
 
     private func setupObserve() {}
@@ -76,7 +110,7 @@ class TransactionsViewController: BaseViewController {
 
 // MARK: - UITableViewDelegate
 
-extension TransactionsViewController: UITableViewDelegate {
+extension TransactionsListViewController: UITableViewDelegate {
     func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat { .leastNormalMagnitude }
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat { .leastNormalMagnitude }
     func tableView(_: UITableView, viewForHeaderInSection _: Int) -> UIView? { nil }
