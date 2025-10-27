@@ -62,8 +62,10 @@ class TransactionsListViewController: BaseViewController {
     // MARK: - Setup
 
     private func setupView() {
-        title = String(localized: "transaction.vc.title")
-        view.addSubview(tableView)
+        self.title = String(localized: "transaction.list.title")
+        self.view.backgroundColor = .systemBackground
+        
+        self.view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -78,7 +80,7 @@ class TransactionsListViewController: BaseViewController {
 
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        view.addSubview(newTransactionButton)
+        self.view.addSubview(newTransactionButton)
         newTransactionButton.snp.makeConstraints { make in
             make.width.height.equalTo(56)
             make.trailing.bottom.equalTo(view.safeAreaLayoutGuide).offset(-24)

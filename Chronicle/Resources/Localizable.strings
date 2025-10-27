@@ -7,7 +7,6 @@
 "tab.accounts.title" = "Accounts";
 "tab.settings.title" = "Settings";
 
-
 // MARK: - Enum
 
 "transaction.category.food_and_drink" = "Food & Drink";
@@ -31,7 +30,13 @@
 "transaction.source.debit_card" = "Debit Card";
 "transaction.source.credit_card" = "Credit Card";
 
+// MARK: - Transaction List
 
-// MARK: - Transaction View Controller
+"transaction.list.title" = "Transaction";
 
-"transaction.vc.title" = "Transaction";
+// MARK: - Transaction New
+
+"transaction.new.title" = "New Transaction";
+"transaction.new.date.title" = "Date";
+"transaction.new.source.title" = "Source";
+"transaction.new.category.title" = "Category";
