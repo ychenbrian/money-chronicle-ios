@@ -20,6 +20,7 @@ class TransactionNewViewController: BaseViewController {
     private let dateRow = TransactionNewDateView()
     private let sourceRow = TransactionNewSourceView()
     private let categoryRow = TransactionNewCategoryView()
+    private let amountRow = TransactionNewAmountView()
     
     // MARK: - Properties
 
@@ -47,7 +48,7 @@ class TransactionNewViewController: BaseViewController {
     // MARK: - Setup
     
     private func setupView() {
-        self.title = String(localized: "transaction.list.title")
+        self.title = String(localized: "transaction.new.title")
         self.view.backgroundColor = .systemBackground
         
         self.view.addSubview(scrollView)
@@ -66,6 +67,7 @@ class TransactionNewViewController: BaseViewController {
         mainStackView.addArrangedSubview(dateRow)
         mainStackView.addArrangedSubview(sourceRow)
         mainStackView.addArrangedSubview(categoryRow)
+        mainStackView.addArrangedSubview(amountRow)
         
         // TODO: handle the selection
     }

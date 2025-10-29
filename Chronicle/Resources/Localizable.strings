@@ -40,3 +40,4 @@
 "transaction.new.date.title" = "Date";
 "transaction.new.source.title" = "Source";
 "transaction.new.category.title" = "Category";
+"transaction.new.amount.title" = "Amount";
