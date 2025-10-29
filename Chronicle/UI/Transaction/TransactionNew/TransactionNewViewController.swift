@@ -21,6 +21,9 @@ class TransactionNewViewController: BaseViewController {
     private let sourceRow = TransactionNewSourceView()
     private let categoryRow = TransactionNewCategoryView()
     private let amountRow = TransactionNewAmountView()
+    private let noteRow = TransactionNewNoteView()
+    private let digitPadRow = TransactionNewDigitPadView()
+    private let buttonRow = TransactionNewButtonView()
     
     // MARK: - Properties
 
@@ -43,8 +46,6 @@ class TransactionNewViewController: BaseViewController {
         setupBinding()
     }
     
-    // MARK: - Action
-    
     // MARK: - Setup
     
     private func setupView() {
@@ -52,7 +53,7 @@ class TransactionNewViewController: BaseViewController {
         self.view.backgroundColor = .systemBackground
         
         self.view.addSubview(scrollView)
-        scrollView.keyboardDismissMode = .interactive
+//        scrollView.keyboardDismissMode = .interactive
 
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -68,11 +69,74 @@ class TransactionNewViewController: BaseViewController {
         mainStackView.addArrangedSubview(sourceRow)
         mainStackView.addArrangedSubview(categoryRow)
         mainStackView.addArrangedSubview(amountRow)
+        mainStackView.addArrangedSubview(noteRow)
+        mainStackView.addArrangedSubview(digitPadRow)
+        mainStackView.addArrangedSubview(buttonRow)
         
-        // TODO: handle the selection
+        digitPadRow.isHidden = true
+        digitPadRow.snp.makeConstraints { make in
+            digitPadHeight = make.height.equalTo(0).constraint
+        }
+        
+        digitPadRow.onDigit = { [weak self] digit in
+            self?.amountRow.apply(.digit(digit))
+        }
+        
+        digitPadRow.onDecimal = { [weak self] in
+            self?.amountRow.apply(.decimal)
+        }
+        
+        digitPadRow.onBackspace = { [weak self] in
+            self?.amountRow.apply(.backspace)
+        }
+        
+        digitPadRow.onClearAll = { [weak self] in
+            self?.amountRow.apply(.clearAll)
+        }
+        
+        amountRow.onRequestInput = { [weak self] in
+            self?.toggleDigitPad()
+        }
+        
+        buttonRow.onSave = { [weak self] in
+            self?.view.endEditing(true)
+            self?.navigationController?.popViewController(animated: true)
+        }
     }
     
     private func setupObserve() {}
     
     private func setupBinding() {}
+    
+    // MARK: - Digit Pad
+
+    private var isPadVisible = false
+    private var digitPadHeight: Constraint?
+    
+    private func toggleDigitPad() {
+        setDigitPad(visible: !isPadVisible, animated: true)
+    }
+
+    private func setDigitPad(visible: Bool, animated: Bool) {
+        guard visible != isPadVisible else { return }
+        isPadVisible = visible
+
+        let targetHeight: CGFloat = visible ? 240 : 0
+        digitPadHeight?.update(offset: targetHeight)
+        digitPadRow.isHidden = !visible
+
+        let animations = {
+            self.view.layoutIfNeeded()
+            if visible {
+                let rect = self.mainStackView.convert(self.amountRow.bounds, from: self.amountRow)
+                self.scrollView.scrollRectToVisible(rect.insetBy(dx: 0, dy: -16), animated: false)
+            }
+        }
+
+        if animated {
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut], animations: animations)
+        } else {
+            animations()
+        }
+    }
 }

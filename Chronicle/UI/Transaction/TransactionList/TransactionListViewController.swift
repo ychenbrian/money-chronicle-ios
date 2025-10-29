@@ -12,7 +12,7 @@ class TransactionsListViewController: BaseViewController {
 
     private let tableView = UITableView(frame: .zero, style: .grouped)
     
-    private lazy var newTransactionButton: UIButton = {
+    private let newTransactionButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("+", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 32, weight: .bold)
@@ -23,7 +23,6 @@ class TransactionsListViewController: BaseViewController {
         button.layer.shadowOpacity = 0.25
         button.layer.shadowOffset = CGSize(width: 0, height: 3)
         button.layer.shadowRadius = 4
-        button.addTarget(self, action: #selector(startTransactionNew), for: .touchUpInside)
         return button
     }()
     
@@ -52,10 +51,9 @@ class TransactionsListViewController: BaseViewController {
         viewModel.loadMockTransactions()
     }
     
-    // MARK: - Action
+    // MARK: - Actions
     
-    @objc
-    private func startTransactionNew() {
+    @objc private func startTransactionNew() {
         self.delegate?.transactionListViewControllerAddNewTransaction()
     }
 
@@ -80,6 +78,7 @@ class TransactionsListViewController: BaseViewController {
 
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
+        newTransactionButton.addTarget(self, action: #selector(startTransactionNew), for: .touchUpInside)
         self.view.addSubview(newTransactionButton)
         newTransactionButton.snp.makeConstraints { make in
             make.width.height.equalTo(56)

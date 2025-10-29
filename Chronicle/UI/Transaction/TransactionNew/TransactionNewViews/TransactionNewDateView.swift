@@ -12,12 +12,11 @@ class TransactionNewDateView: UIView {
         return label
     }()
     
-    private lazy var datePicker: UIDatePicker = {
+    private let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .dateAndTime
         datePicker.preferredDatePickerStyle = .compact
         datePicker.minuteInterval = 5
-        datePicker.addTarget(self, action: #selector(dateDidChange(_:)), for: .valueChanged)
         return datePicker
     }()
     
@@ -41,6 +40,8 @@ class TransactionNewDateView: UIView {
 
     private func setupViews() {
         addSubview(titleLabel)
+        
+        datePicker.addTarget(self, action: #selector(dateDidChange(_:)), for: .valueChanged)
         addSubview(datePicker)
         
         titleLabel.snp.makeConstraints { make in

@@ -3,18 +3,21 @@ import UIKit
 
 @MainActor
 final class TransactionNewAmountView: UIView {
+    // MARK: - Config
+
     struct Config {
-        var hapticsEnabled: Bool = true
         var minimumFractionDigits: Int = 0
         var maximumFractionDigits: Int = 2
     }
 
     var onAmountChanged: ((Decimal) -> Void)?
+    var onRequestInput: (() -> Void)?
+
     var config = Config() {
         didSet {
             numberFormatter.minimumFractionDigits = config.minimumFractionDigits
             numberFormatter.maximumFractionDigits = config.maximumFractionDigits
-            updateDecimalButtonEnabledState()
+            setAmount(currentDecimal())
         }
     }
 
@@ -22,9 +25,15 @@ final class TransactionNewAmountView: UIView {
         didSet {
             numberFormatter.locale = locale
             decSep = numberFormatter.decimalSeparator ?? "."
-            rebuildKeypad()
             setAmount(currentDecimal())
         }
+    }
+
+    enum InputAction {
+        case digit(Int)
+        case decimal
+        case backspace
+        case clearAll
     }
 
     // MARK: - UI Components
@@ -47,16 +56,12 @@ final class TransactionNewAmountView: UIView {
         label.adjustsFontForContentSizeCategory = true
         label.textColor = .label
         label.isUserInteractionEnabled = true
-        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleKeypad)))
+        label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAmount)))
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
 
-    private let keypadContainer = UIStackView()
-    private var decimalButton: UIButton?
-    private var backspaceButton: UIButton?
-
-    // MARK: - State
+    // MARK: - Properties
 
     private lazy var numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -66,8 +71,6 @@ final class TransactionNewAmountView: UIView {
         formatter.maximumFractionDigits = config.maximumFractionDigits
         return formatter
     }()
-    
-    // MARK: - Properties
 
     private var decSep: String = Locale.current.decimalSeparator ?? "."
     private var amountText: String = "0" { didSet { amountLabel.text = amountText } }
@@ -89,104 +92,29 @@ final class TransactionNewAmountView: UIView {
     private func setupViews() {
         addSubview(titleLabel)
         addSubview(amountLabel)
-        addSubview(keypadContainer)
 
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
-            make.top.equalToSuperview().offset(10)
+            make.top.greaterThanOrEqualToSuperview().offset(4)
+            make.bottom.lessThanOrEqualToSuperview().offset(-4)
+            make.centerY.equalToSuperview()
             make.height.greaterThanOrEqualTo(24)
         }
+
         amountLabel.snp.makeConstraints { make in
-            make.leading.greaterThanOrEqualTo(titleLabel.snp.trailing).offset(8)
+            make.leading.equalTo(titleLabel.snp.trailing).offset(8)
             make.trailing.equalToSuperview().offset(-24)
-            make.centerY.equalTo(titleLabel.snp.centerY)
-        }
-
-        keypadContainer.axis = .vertical
-        keypadContainer.spacing = 8
-        keypadContainer.distribution = .fillEqually
-        rebuildKeypad()
-
-        keypadContainer.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
+            make.top.greaterThanOrEqualToSuperview().offset(4)
+            make.bottom.lessThanOrEqualToSuperview().offset(-4)
+            make.centerY.equalToSuperview()
             make.bottom.equalToSuperview().offset(-10)
         }
-    }
-    
-    private func rebuildKeypad() {
-        keypadContainer.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
-        func row(_ titles: [String]) -> UIStackView {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.spacing = 8
-            stackView.distribution = .fillEqually
-            titles.forEach { t in stackView.addArrangedSubview(makeKeyButton(t)) }
-            return stackView
-        }
-
-        keypadContainer.addArrangedSubview(row(["1", "2", "3"]))
-        keypadContainer.addArrangedSubview(row(["4", "5", "6"]))
-        keypadContainer.addArrangedSubview(row(["7", "8", "9"]))
-        let dec = makeKeyButton(decSep)
-        decimalButton = dec
-        let zero = makeKeyButton("0")
-        let back = makeKeyButton("⌫")
-        backspaceButton = back
-
-        let lastRow = UIStackView(arrangedSubviews: [dec, zero, back])
-        lastRow.axis = .horizontal
-        lastRow.spacing = 8
-        lastRow.distribution = .fillEqually
-        keypadContainer.addArrangedSubview(lastRow)
-
-        updateDecimalButtonEnabledState()
-    }
-
-    private func makeKeyButton(_ title: String) -> UIButton {
-        let button = UIButton(type: .system)
-        var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = .secondarySystemBackground
-        config.baseForegroundColor = .label
-        config.cornerStyle = .large
-        config.title = title
-        button.configuration = config
-
-        let constraint = button.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
-        constraint.priority = .defaultHigh
-        constraint.isActive = true
-
-        button.addTarget(self, action: #selector(keyTapped(_:)), for: .touchUpInside)
-        button.accessibilityLabel = "Key \(title)"
-        return button
-    }
-
-    private func updateDecimalButtonEnabledState() {
-        let enabled = config.maximumFractionDigits > 0
-        decimalButton?.isEnabled = enabled
-        decimalButton?.alpha = enabled ? 1.0 : 0.5
     }
 
     // MARK: - Actions
 
-    @objc private func toggleKeypad() { setKeypadVisible(keypadContainer.isHidden) }
-
-    @objc private func keyTapped(_ sender: UIButton) {
-        let title = sender.title(for: .normal) ?? sender.configuration?.title ?? sender.currentTitle ?? ""
-        guard !title.isEmpty else { return }
-
-        switch title {
-        case "⌫":
-            handleBackspace()
-        case decSep where config.maximumFractionDigits > 0:
-            insertDecimalSeparator()
-        default:
-            insertDigit(title)
-        }
-        provideTapHaptic()
-        notifyIfValid()
+    @objc private func didTapAmount() {
+        onRequestInput?()
     }
 
     // MARK: - Private
@@ -196,6 +124,7 @@ final class TransactionNewAmountView: UIView {
 
         if amountText == "0" {
             amountText = digit
+            notifyIfValid()
             return
         }
 
@@ -205,26 +134,25 @@ final class TransactionNewAmountView: UIView {
         }
 
         amountText.append(digit)
+        notifyIfValid()
     }
 
     private func insertDecimalSeparator() {
         guard config.maximumFractionDigits > 0 else { return }
         if amountText.contains(decSep) { return }
         amountText.append(decSep)
+        notifyIfValid()
     }
 
     private func handleBackspace() {
         guard !amountText.isEmpty else { return }
         amountText.removeLast()
-        if amountText.isEmpty || amountText == decSep {
-            amountText = "0"
-        }
+        if amountText.isEmpty || amountText == decSep { amountText = "0" }
+        notifyIfValid()
     }
 
     private func notifyIfValid() {
-        if let value = currentDecimal() {
-            onAmountChanged?(value)
-        }
+        if let value = currentDecimal() { onAmountChanged?(value) }
         amountLabel.accessibilityValue = amountText
     }
 
@@ -233,28 +161,26 @@ final class TransactionNewAmountView: UIView {
     }
 
     // MARK: - Public
+    
+    func apply(_ action: InputAction) {
+        switch action {
+        case .digit(let d):
+            insertDigit(String(d))
+        case .decimal:
+            insertDecimalSeparator()
+        case .backspace:
+            handleBackspace()
+        case .clearAll:
+            amountText = "0"
+            notifyIfValid()
+        }
+    }
 
     func setAmount(_ value: Decimal?) {
         guard let value else { amountText = "0"; return }
         amountText = numberFormatter.string(from: value as NSDecimalNumber) ?? "0"
+        notifyIfValid()
     }
 
     func getAmount() -> Decimal? { currentDecimal() }
-
-    func setKeypadVisible(_ visible: Bool) {
-        keypadContainer.isHidden = !visible
-        if visible { provideOpenHaptic() }
-    }
-
-    // MARK: - Haptics
-
-    private func provideOpenHaptic() {
-        guard config.hapticsEnabled else { return }
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-    }
-
-    private func provideTapHaptic() {
-        guard config.hapticsEnabled else { return }
-        UISelectionFeedbackGenerator().selectionChanged()
-    }
 }
