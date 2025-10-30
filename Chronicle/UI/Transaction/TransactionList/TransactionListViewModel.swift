@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import RxCocoa
 import RxSwift
@@ -11,10 +12,19 @@ class TransactionViewModel: BaseViewModel {
     let event = PublishRelay<String>()
 
     // MARK: - Properties
-
+    
+    private let repository: TransactionRepositoryType
+    private var cancellables = Set<AnyCancellable>()
+    
     private let transGroupsRelay = BehaviorRelay<[UIModel.TransactionGroup]>(value: [])
     var transGroups: Observable<[UIModel.TransactionGroup]> {
         transGroupsRelay.asObservable()
+    }
+    
+    // MARK: - Lifecycle
+    
+    init(repository: TransactionRepositoryType) {
+        self.repository = repository
     }
     
     // MARK: - Table Row
@@ -90,66 +100,14 @@ class TransactionViewModel: BaseViewModel {
 
     // MARK: - Mock data
 
-    func loadMockTransactions() {
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
-        let dayBeforeYesterday = Calendar.current.date(byAdding: .day, value: -2, to: Date())
-
-        let mock: [UIModel.Transaction] = [
-            UIModel.Transaction(
-                id: "1",
-                title: "Lunch",
-                amount: 12.5,
-                date: Date(),
-                source: TransactionSource.allCases.randomElement()!,
-                category: TransactionCategory.allCases.randomElement()!,
-                note: ""
-            ),
-            UIModel.Transaction(
-                id: "2",
-                title: "Bus",
-                amount: 2.5,
-                date: yesterday,
-                source: TransactionSource.allCases.randomElement()!,
-                category: TransactionCategory.allCases.randomElement()!,
-                note: ""
-            ),
-            UIModel.Transaction(
-                id: "3",
-                title: "Groceries",
-                amount: 35.0,
-                date: Date(),
-                source: TransactionSource.allCases.randomElement()!,
-                category: TransactionCategory.allCases.randomElement()!,
-                note: ""
-            ),
-            UIModel.Transaction(
-                id: "4",
-                title: "Dinner",
-                amount: 12.5,
-                date: dayBeforeYesterday,
-                source: TransactionSource.allCases.randomElement()!,
-                category: TransactionCategory.allCases.randomElement()!,
-                note: ""
-            ),
-            UIModel.Transaction(
-                id: "5",
-                title: "Education",
-                amount: 2.5,
-                date: dayBeforeYesterday,
-                source: TransactionSource.allCases.randomElement()!,
-                category: TransactionCategory.allCases.randomElement()!,
-                note: ""
-            ),
-            UIModel.Transaction(
-                id: "6",
-                title: "Groceries",
-                amount: 35.0,
-                date: Date(),
-                source: TransactionSource.allCases.randomElement()!,
-                category: TransactionCategory.allCases.randomElement()!,
-                note: ""
-            )
-        ]
-        updateTransactions(with: mock)
+    func loadTransactions() {
+        repository
+            .all(sortBy: "date", ascending: true)
+            .map { $0.map { UIModel.Transaction($0) } }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] uiModel in
+                self?.updateTransactions(with: uiModel)
+            }
+            .store(in: &cancellables)
     }
 }

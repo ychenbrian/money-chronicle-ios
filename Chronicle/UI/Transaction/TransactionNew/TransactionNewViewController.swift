@@ -1,4 +1,5 @@
 import Foundation
+import RxCocoa
 import RxSwift
 import SnapKit
 import UIKit
@@ -53,7 +54,7 @@ class TransactionNewViewController: BaseViewController {
         self.view.backgroundColor = .systemBackground
         
         self.view.addSubview(scrollView)
-//        scrollView.keyboardDismissMode = .interactive
+        scrollView.keyboardDismissMode = .interactive
 
         scrollView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -100,13 +101,31 @@ class TransactionNewViewController: BaseViewController {
         
         buttonRow.onSave = { [weak self] in
             self?.view.endEditing(true)
-            self?.navigationController?.popViewController(animated: true)
+            self?.updateTransaction()
+            self?.viewModel.saveTransaction()
         }
     }
     
     private func setupObserve() {}
     
-    private func setupBinding() {}
+    private func setupBinding() {
+        viewModel.event
+            .bind(onNext: { [weak self] evt in
+                switch evt {
+                case .transactionSaved:
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func updateTransaction() {
+        viewModel.setDate(dateRow.getDate())
+        viewModel.setSource(sourceRow.getSource())
+        viewModel.setCategory(categoryRow.getCategory())
+        viewModel.setAmount(amountRow.getAmount())
+        viewModel.setNote(noteRow.getNote())
+    }
     
     // MARK: - Digit Pad
 

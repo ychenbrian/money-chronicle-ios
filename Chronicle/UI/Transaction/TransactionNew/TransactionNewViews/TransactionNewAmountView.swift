@@ -182,5 +182,5 @@ final class TransactionNewAmountView: UIView {
         notifyIfValid()
     }
 
-    func getAmount() -> Decimal? { currentDecimal() }
+    func getAmount() -> Double { NSDecimalNumber(decimal: currentDecimal() ?? 0.0).doubleValue }
 }

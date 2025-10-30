@@ -2,6 +2,7 @@ import Foundation
 import RealmSwift
 
 extension DBModel {
+    @objc(DBTransaction)
     class Transaction: Object {
         @Persisted(primaryKey: true) var id: String = UUID().uuidString
         @Persisted var title: String = ""
@@ -63,6 +64,19 @@ extension UIModel {
             source = apiTransaction.source
             category = apiTransaction.category
             note = apiTransaction.note
+        }
+        
+        func toDBModel() -> DBModel.Transaction {
+            let dbModel = DBModel.Transaction()
+            dbModel.id = id ?? UUID().uuidString
+            dbModel.title = title ?? ""
+            dbModel.amount = amount ?? 0.0
+            dbModel.date = date ?? .init()
+            dbModel.source = source?.rawValue ?? ""
+            dbModel.category = category?.rawValue ?? ""
+            dbModel.note = note ?? ""
+            
+            return dbModel
         }
     }
 }

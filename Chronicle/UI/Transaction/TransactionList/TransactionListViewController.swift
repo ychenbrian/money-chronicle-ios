@@ -48,7 +48,7 @@ class TransactionsListViewController: BaseViewController {
         setupView()
         setupObserve()
         setupBinding()
-        viewModel.loadMockTransactions()
+        viewModel.loadTransactions()
     }
     
     // MARK: - Actions

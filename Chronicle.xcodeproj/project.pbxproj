@@ -15,6 +15,7 @@
 		319639A32EA67450007851D2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 319639A22EA67450007851D2 /* RxSwift */; };
 		319639A52EA67450007851D2 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 319639A42EA67450007851D2 /* RxTest */; };
 		31963C912EA7F3EF007851D2 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 31963C902EA7F3EF007851D2 /* Fakery */; };
+		31963EEB2EB3FA1D007851D2 /* IQKeyboardToolbarManager in Frameworks */ = {isa = PBXBuildFile; productRef = 31963EEA2EB3FA1D007851D2 /* IQKeyboardToolbarManager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 				3196399F2EA67450007851D2 /* RxCocoa in Frameworks */,
 				3196399A2EA673CA007851D2 /* RealmSwift in Frameworks */,
 				319639A32EA67450007851D2 /* RxSwift in Frameworks */,
+				31963EEB2EB3FA1D007851D2 /* IQKeyboardToolbarManager in Frameworks */,
 				319639A12EA67450007851D2 /* RxRelay in Frameworks */,
 				319639972EA6732F007851D2 /* SnapKit in Frameworks */,
 			);
@@ -103,6 +105,7 @@
 				3196392A2EA6437E007851D2 /* Chronicle */,
 				319639382EA64380007851D2 /* Chronicle_iosTests */,
 				319639422EA64380007851D2 /* Chronicle_iosUITests */,
+				31963EE92EB3FA1D007851D2 /* Frameworks */,
 				319639292EA6437E007851D2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -161,6 +164,13 @@
 			path = ModelsMock;
 			sourceTree = "<group>";
 		};
+		31963EE92EB3FA1D007851D2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,6 +197,7 @@
 				3196399E2EA67450007851D2 /* RxCocoa */,
 				319639A02EA67450007851D2 /* RxRelay */,
 				319639A22EA67450007851D2 /* RxSwift */,
+				31963EEA2EB3FA1D007851D2 /* IQKeyboardToolbarManager */,
 			);
 			productName = "money-chronicle-ios";
 			productReference = 319639282EA6437E007851D2 /* Chronicle_Staging.app */;
@@ -278,6 +289,7 @@
 				319639982EA673CA007851D2 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				3196399B2EA67450007851D2 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				31963C8F2EA7F3EF007851D2 /* XCRemoteSwiftPackageReference "Fakery" */,
+				31963EE82EB3F8A4007851D2 /* XCRemoteSwiftPackageReference "IQKeyboardToolbarManager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 319639292EA6437E007851D2 /* Products */;
@@ -766,6 +778,14 @@
 				minimumVersion = 5.1.0;
 			};
 		};
+		31963EE82EB3F8A4007851D2 /* XCRemoteSwiftPackageReference "IQKeyboardToolbarManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardToolbarManager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -808,6 +828,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 31963C8F2EA7F3EF007851D2 /* XCRemoteSwiftPackageReference "Fakery" */;
 			productName = Fakery;
+		};
+		31963EEA2EB3FA1D007851D2 /* IQKeyboardToolbarManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31963EE82EB3F8A4007851D2 /* XCRemoteSwiftPackageReference "IQKeyboardToolbarManager" */;
+			productName = IQKeyboardToolbarManager;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
