@@ -16,6 +16,7 @@
 		319639A52EA67450007851D2 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = 319639A42EA67450007851D2 /* RxTest */; };
 		31963C912EA7F3EF007851D2 /* Fakery in Frameworks */ = {isa = PBXBuildFile; productRef = 31963C902EA7F3EF007851D2 /* Fakery */; };
 		31963EEB2EB3FA1D007851D2 /* IQKeyboardToolbarManager in Frameworks */ = {isa = PBXBuildFile; productRef = 31963EEA2EB3FA1D007851D2 /* IQKeyboardToolbarManager */; };
+		31963F762EB81C43007851D2 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 319639992EA673CA007851D2 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,20 @@
 			remoteInfo = "money-chronicle-ios";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31963F772EB81C43007851D2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				31963F762EB81C43007851D2 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		319639282EA6437E007851D2 /* Chronicle_Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chronicle_Staging.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +197,7 @@
 				319639242EA6437E007851D2 /* Sources */,
 				319639252EA6437E007851D2 /* Frameworks */,
 				319639262EA6437E007851D2 /* Resources */,
+				31963F772EB81C43007851D2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

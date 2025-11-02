@@ -32,6 +32,7 @@ class TransactionViewModel: BaseViewModel {
     enum Row {
         case title(UIModel.TransactionGroup)
         case transaction(UIModel.Transaction)
+        case empty
     }
     
     var rows: Driver<[Row]> {

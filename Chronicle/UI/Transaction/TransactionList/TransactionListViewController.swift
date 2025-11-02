@@ -14,7 +14,7 @@ class TransactionsListViewController: BaseViewController {
     
     private let newTransactionButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("+", for: .normal)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 32, weight: .bold)
         button.tintColor = .white
         button.backgroundColor = .systemBlue
@@ -34,6 +34,7 @@ class TransactionsListViewController: BaseViewController {
 
     private let titleCellID = "TransactionTitleCell"
     private let transCellID = "TransactionCell"
+    private let emptyCellID = "TransactionEmptyCell"
 
     // MARK: - Lifecycle
 
@@ -70,6 +71,7 @@ class TransactionsListViewController: BaseViewController {
 
         tableView.register(TransactionTitleCell.self, forCellReuseIdentifier: titleCellID)
         tableView.register(TransactionCell.self, forCellReuseIdentifier: transCellID)
+        tableView.register(TransactionEmptyCell.self, forCellReuseIdentifier: emptyCellID)
 
         tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
@@ -90,6 +92,12 @@ class TransactionsListViewController: BaseViewController {
     
     private func setupBinding() {
         viewModel.rows
+            .do(onNext: { [weak self] rows in
+                self?.tableView.isScrollEnabled = !rows.isEmpty
+            })
+            .map { rows in
+                rows.isEmpty ? [.empty] : rows
+            }
             .drive(tableView.rx.items) { [weak self] tableView, _, item in
                 guard let self = self else { return UITableViewCell() }
                 switch item {
@@ -101,6 +109,10 @@ class TransactionsListViewController: BaseViewController {
                 case .transaction(let tx):
                     let cell = tableView.dequeueReusableCell(withIdentifier: self.transCellID) as! TransactionCell
                     cell.transaction = tx
+                    cell.selectionStyle = .none
+                    return cell
+                case .empty:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: self.emptyCellID) as! TransactionEmptyCell
                     cell.selectionStyle = .none
                     return cell
                 }

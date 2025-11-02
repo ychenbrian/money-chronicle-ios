@@ -17,7 +17,7 @@ class TransactionCell: UITableViewCell {
     private let containerView: UIView = {
         let view = UIView()
         view.layer.applyCornerRadiusShadow()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         return view
     }()
 
@@ -25,15 +25,15 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.numberOfLines = 0
-        label.textColor = .appColor(.primaryTextColor)
+        label.textColor = .label
         return label
     }()
 
-    private let timeSourceLabel: UILabel = {
+    private let sourceNoteLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.numberOfLines = 0
-        label.textColor = .appColor(.secondaryTextColor)
+        label.textColor = .secondaryLabel
         return label
     }()
 
@@ -41,7 +41,7 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.numberOfLines = 1
-        label.textColor = .appColor(.primaryTextColor)
+        label.textColor = .label
         return label
     }()
 
@@ -82,7 +82,7 @@ class TransactionCell: UITableViewCell {
     private func setupView() {
         backgroundColor = .clear
 
-        addSubview(shadowView)
+        contentView.addSubview(shadowView)
         shadowView.addSubview(containerView)
 
         shadowView.snp.makeConstraints { make in
@@ -111,7 +111,7 @@ class TransactionCell: UITableViewCell {
         
         containerView.addSubview(categoryLabel)
         containerView.addSubview(amountLabel)
-        containerView.addSubview(timeSourceLabel)
+        containerView.addSubview(sourceNoteLabel)
 
         categoryLabel.snp.makeConstraints { make in
             make.leading.equalTo(categoryImageContainer.snp.trailing).offset(12)
@@ -125,7 +125,7 @@ class TransactionCell: UITableViewCell {
             make.bottom.lessThanOrEqualToSuperview().offset(-12)
         }
 
-        timeSourceLabel.snp.makeConstraints { make in
+        sourceNoteLabel.snp.makeConstraints { make in
             make.leading.equalTo(categoryImageContainer.snp.trailing).offset(12)
             make.bottom.equalToSuperview().offset(-12)
             make.trailing.lessThanOrEqualToSuperview().offset(-12)
@@ -139,7 +139,10 @@ class TransactionCell: UITableViewCell {
         let amount: Double = transaction.amount ?? 0.0
         amountLabel.text = String(format: "£%.2f", amount)
         categoryLabel.text = transaction.category?.displayText
-        timeSourceLabel.text = "\(transaction.date?.asHourMinuteString ?? "00:00") • \(transaction.source?.displayText ?? "")"
+        
+        let sourceText = transaction.source?.displayText ?? ""
+        let noteText = transaction.note?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        sourceNoteLabel.text = noteText.isEmpty ? sourceText : "\(sourceText) • \(noteText)"
 
         if let icon = UIImage(systemName: transaction.category?.iconName ?? "") {
             categoryImageView.image = icon

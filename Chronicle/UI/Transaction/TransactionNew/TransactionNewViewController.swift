@@ -70,8 +70,8 @@ class TransactionNewViewController: BaseViewController {
         mainStackView.addArrangedSubview(sourceRow)
         mainStackView.addArrangedSubview(categoryRow)
         mainStackView.addArrangedSubview(amountRow)
-        mainStackView.addArrangedSubview(noteRow)
         mainStackView.addArrangedSubview(digitPadRow)
+        mainStackView.addArrangedSubview(noteRow)
         mainStackView.addArrangedSubview(buttonRow)
         
         digitPadRow.isHidden = true

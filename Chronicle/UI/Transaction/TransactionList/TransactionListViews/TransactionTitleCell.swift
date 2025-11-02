@@ -54,7 +54,7 @@ class TransactionTitleCell: UITableViewCell {
     private func setupView() {
         backgroundColor = .clear
 
-        addSubview(titleStackView)
+        contentView.addSubview(titleStackView)
 
         titleStackView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview().inset(12)
