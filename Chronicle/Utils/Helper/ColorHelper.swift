@@ -9,6 +9,7 @@ enum AppColor: String, CaseIterable {
     // MARK: - Background Colors
 
     case primaryBackgroundColor
+    case secondaryBackgroundColor
     case blueBackgroundColor
 }
 

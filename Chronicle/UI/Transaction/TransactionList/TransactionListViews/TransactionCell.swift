@@ -8,7 +8,7 @@ class TransactionCell: UITableViewCell {
         let view = UIView()
         view.layer.shadowRadius = 4
         view.layer.shadowColor = UIColor.appColor(.secondaryTextColor).cgColor
-        view.layer.shadowOpacity = 0.1
+        view.layer.shadowOpacity = 0.2
         view.layer.shadowOffset = CGSize(width: 0, height: 1)
         view.backgroundColor = .clear
         return view
@@ -17,7 +17,7 @@ class TransactionCell: UITableViewCell {
     private let containerView: UIView = {
         let view = UIView()
         view.layer.applyCornerRadiusShadow()
-        view.backgroundColor = .secondarySystemBackground
+        view.backgroundColor = .appColor(.secondaryBackgroundColor)
         return view
     }()
 
@@ -25,7 +25,7 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.numberOfLines = 0
-        label.textColor = .label
+        label.textColor = .appColor(.primaryTextColor)
         return label
     }()
 
@@ -33,7 +33,7 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.numberOfLines = 0
-        label.textColor = .secondaryLabel
+        label.textColor = .appColor(.secondaryTextColor)
         return label
     }()
 
@@ -41,7 +41,7 @@ class TransactionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         label.numberOfLines = 1
-        label.textColor = .label
+        label.textColor = .appColor(.primaryTextColor)
         return label
     }()
 
