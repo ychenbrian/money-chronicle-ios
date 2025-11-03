@@ -2,7 +2,7 @@ import SnapKit
 import UIKit
 
 @MainActor
-final class TransactionNewAmountView: UIView {
+final class TransactionEditAmountView: UIView {
     // MARK: - Config
 
     struct Config {

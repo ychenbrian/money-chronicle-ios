@@ -5,6 +5,7 @@ import UIKit
 
 protocol TransactionListViewControllerDelegate: AnyObject {
     func transactionListViewControllerAddNewTransaction()
+    func transactionListViewControllerEditTransaction(_ transaction: UIModel.Transaction)
 }
 
 class TransactionsListViewController: BaseViewController {
@@ -117,6 +118,22 @@ class TransactionsListViewController: BaseViewController {
                     return cell
                 }
             }
+            .disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(TransactionViewModel.Row.self)
+            .compactMap { row -> UIModel.Transaction? in
+                if case let .transaction(tx) = row { return tx }
+                return nil
+            }
+            .subscribe(onNext: { [weak self] tx in
+                self?.delegate?.transactionListViewControllerEditTransaction(tx)
+            })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                self?.tableView.deselectRow(at: indexPath, animated: true)
+            })
             .disposed(by: disposeBag)
     }
 }

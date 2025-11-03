@@ -2,10 +2,10 @@ import RxCocoa
 import RxSwift
 
 protocol BaseViewModel {
-    var error: PublishSubject<Error> { get }
+    var error: Signal<Error> { get }
 }
 
 protocol EventTransmitter: BaseViewModel {
     associatedtype Event
-    var event: PublishRelay<Event> { get }
+    var event: Signal<Event> { get }
 }

@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class TransactionNewDateView: UIView {    
+class TransactionEditDateView: UIView {    
     // MARK: - UI Components
 
     private let titleLabel: UILabel = {

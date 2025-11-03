@@ -37,6 +37,7 @@
 // MARK: - Transaction New
 
 "transaction.new.title" = "New Transaction";
+"transaction.edit.title" = "Edit Transaction";
 "transaction.new.date.title" = "Date";
 "transaction.new.source.title" = "Source";
 "transaction.new.category.title" = "Category";

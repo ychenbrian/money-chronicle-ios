@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class TransactionNewNoteView: UIView {
+class TransactionEditNoteView: UIView {
     // MARK: - UI Components
     
     private let titleLabel: UILabel = {
@@ -118,7 +118,7 @@ class TransactionNewNoteView: UIView {
 
 // MARK: - UITextViewDelegate
 
-extension TransactionNewNoteView: UITextViewDelegate {
+extension TransactionEditNoteView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         clearButton.isHidden = textView.text.isEmpty
         onNoteChanged?(textView.text)

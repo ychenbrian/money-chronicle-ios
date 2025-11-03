@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class TransactionNewButtonView: UIView {
+class TransactionEditButtonView: UIView {
     // MARK: - UI Components
     
     private let saveButton: UIButton = {
@@ -50,4 +50,6 @@ class TransactionNewButtonView: UIView {
     @objc private func onSaveButtonTapped() {
         onSave?()
     }
+    
+    func setEnabled(_ enabled: Bool) {}
 }

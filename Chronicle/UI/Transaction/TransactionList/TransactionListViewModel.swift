@@ -6,10 +6,11 @@ import RxSwift
 class TransactionViewModel: BaseViewModel {
     typealias Event = String
 
-    // MARK: - BaseViewModel
-
-    let error = PublishSubject<Error>()
-    let event = PublishRelay<String>()
+    let event: Signal<Event>
+    let error: Signal<Error>
+    
+    private let eventRelay = PublishRelay<Event>()
+    private let errorRelay = PublishRelay<Error>()
 
     // MARK: - Properties
     
@@ -25,6 +26,8 @@ class TransactionViewModel: BaseViewModel {
     
     init(repository: TransactionRepositoryType) {
         self.repository = repository
+        self.event = eventRelay.asSignal()
+        self.error = errorRelay.asSignal()
     }
     
     // MARK: - Table Row

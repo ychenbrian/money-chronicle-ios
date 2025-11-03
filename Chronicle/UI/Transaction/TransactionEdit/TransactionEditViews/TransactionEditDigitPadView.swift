@@ -2,7 +2,7 @@ import SnapKit
 import UIKit
 
 @MainActor
-final class TransactionNewDigitPadView: UIView {
+final class TransactionEditDigitPadView: UIView {
     // MARK: - Config
 
     struct Config {

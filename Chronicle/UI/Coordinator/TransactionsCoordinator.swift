@@ -17,8 +17,15 @@ class TransactionsCoordinator: Coordinator {
     }
     
     func startTransactionNew() {
-        let viewModel = TransactionNewViewModel(repository: repository)
-        let viewController = TransactionNewViewController(viewModel: viewModel, delegate: self)
+        let viewModel = TransactionEditViewModel(repository: repository)
+        let viewController = TransactionEditViewController(viewModel: viewModel, delegate: self)
+        viewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    func startTransactionEdit(_ transaction: UIModel.Transaction, _ id: String) {
+        let viewModel = TransactionEditViewModel(repository: repository, existing: transaction, id: id)
+        let viewController = TransactionEditViewController(viewModel: viewModel, delegate: self)
         viewController.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(viewController, animated: true)
     }
@@ -30,8 +37,16 @@ extension TransactionsCoordinator: TransactionListViewControllerDelegate {
     func transactionListViewControllerAddNewTransaction() {
         startTransactionNew()
     }
+    
+    func transactionListViewControllerEditTransaction(_ transaction: UIModel.Transaction) {
+        if let id = transaction.id {
+            startTransactionEdit(transaction, id)
+        } else {
+            startTransactionNew()
+        }
+    }
 }
 
 // MARK: - TransactionNewViewControllerDelegate
 
-extension TransactionsCoordinator: TransactionNewViewControllerDelegate {}
+extension TransactionsCoordinator: TransactionEditViewControllerDelegate {}

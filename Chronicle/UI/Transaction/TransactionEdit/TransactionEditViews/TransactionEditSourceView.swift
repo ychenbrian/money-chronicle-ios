@@ -1,14 +1,13 @@
 import SnapKit
 import UIKit
 
-class TransactionNewCategoryView: UIView {
-    // MARK: - UI Components
+final class TransactionEditSourceView: UIView {
+    // MARK: - UI
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = String(localized: "transaction.new.category.title")
+        label.text = String(localized: "transaction.new.source.title")
         label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.numberOfLines = 0
         label.textColor = .label
         return label
     }()
@@ -24,25 +23,25 @@ class TransactionNewCategoryView: UIView {
     }()
 
     // MARK: - Property
+
+    private(set) var selectedSource: TransactionSource = .debitCard
+    var onSourceChanged: ((TransactionSource) -> Void)?
+
+    // MARK: - Lifecycle
     
-    private(set) var selectedCategory: TransactionCategory = .foodAndDrink
-    var onCategoryChanged: ((TransactionCategory) -> Void)?
-
-    // MARK: Init
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        setCategory(selectedCategory)
+        setSource(selectedSource)
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
-        setCategory(selectedCategory)
+        setSource(selectedSource)
     }
 
-    // MARK: Setup
+    // MARK: - Setup
 
     private func setupViews() {
         addSubview(titleLabel)
@@ -70,12 +69,11 @@ class TransactionNewCategoryView: UIView {
     }
 
     private func rebuildMenu() {
-        let actions = TransactionCategory.allCases.map { category in
-            UIAction(title: category.displayText, image: UIImage(systemName: category.iconName)) { [weak self] _ in
-                self?.setCategory(category)
-                if let selected = self?.selectedCategory {
-                    self?.onCategoryChanged?(selected)
-                }
+        let actions = TransactionSource.allCases.map { source in
+            UIAction(title: source.displayText,
+                     image: UIImage(systemName: source.iconName)) { [weak self] _ in
+                self?.setSource(source)
+                if let selected = self?.selectedSource { self?.onSourceChanged?(selected) }
             }
         }
         let menu = UIMenu(title: "", children: actions)
@@ -84,8 +82,8 @@ class TransactionNewCategoryView: UIView {
     }
 
     private func updateButtonAppearance() {
-        let title = selectedCategory.displayText
-        let image = UIImage(systemName: selectedCategory.iconName)
+        let title = selectedSource.displayText
+        let image = UIImage(systemName: selectedSource.iconName)
         var config = selectButton.configuration ?? .plain()
         config.title = title
         config.image = image
@@ -94,14 +92,14 @@ class TransactionNewCategoryView: UIView {
         selectButton.configuration = config
     }
 
-    // MARK: Public
+    // MARK: - Public
 
-    func setCategory(_ category: TransactionCategory) {
-        selectedCategory = category
+    func setSource(_ source: TransactionSource) {
+        selectedSource = source
         updateButtonAppearance()
     }
 
-    func getCategory() -> TransactionCategory {
-        selectedCategory
+    func getSource() -> TransactionSource {
+        selectedSource
     }
 }

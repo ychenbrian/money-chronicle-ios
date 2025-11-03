@@ -16,8 +16,8 @@ final class TransactionRepository: TransactionRepositoryType {
 
     func all(sortBy keyPath: String = "date", ascending: Bool = false) -> AnyPublisher<[DBModel.Transaction], Never> {
         do {
-            let r = try realmProvider()
-            let results = r.objects(DBModel.Transaction.self).sorted(byKeyPath: keyPath, ascending: ascending)
+            let realm = try realmProvider()
+            let results = realm.objects(DBModel.Transaction.self).sorted(byKeyPath: keyPath, ascending: ascending)
             return ResultsPublisher(results: results).eraseToAnyPublisher()
         } catch {
             return Just([]).eraseToAnyPublisher()
@@ -29,20 +29,20 @@ final class TransactionRepository: TransactionRepositoryType {
     }
 
     func add(_ tx: DBModel.Transaction) throws {
-        let r = try realmProvider()
-        try r.write { r.add(tx, update: .error) }
+        let realm = try realmProvider()
+        try realm.write { realm.add(tx, update: .error) }
     }
 
     func update(id: String, mutate: (DBModel.Transaction) -> Void) throws {
-        let r = try realmProvider()
-        guard let obj = r.object(ofType: DBModel.Transaction.self, forPrimaryKey: id) else { return }
-        try r.write { mutate(obj) }
+        let realm = try realmProvider()
+        guard let obj = realm.object(ofType: DBModel.Transaction.self, forPrimaryKey: id) else { return }
+        try realm.write { mutate(obj) }
     }
 
     func delete(id: String) throws {
-        let r = try realmProvider()
-        if let obj = r.object(ofType: DBModel.Transaction.self, forPrimaryKey: id) {
-            try r.write { r.delete(obj) }
+        let realm = try realmProvider()
+        if let obj = realm.object(ofType: DBModel.Transaction.self, forPrimaryKey: id) {
+            try realm.write { realm.delete(obj) }
         }
     }
 }
