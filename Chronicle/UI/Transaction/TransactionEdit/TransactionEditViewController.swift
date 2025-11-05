@@ -49,19 +49,19 @@ final class TransactionEditViewController: BaseViewController {
     // MARK: - Setup
 
     private func setupView() {
-        title = viewModel.isEditing
-            ? String(localized: "transaction.edit.title")
-            : String(localized: "transaction.new.title")
-        view.backgroundColor = .systemBackground
+        self.title = viewModel.isEditing ? String(localized: "transaction.edit.title") : String(localized: "transaction.new.title")
+        self.view.backgroundColor = .systemBackground
 
-        view.addSubview(scrollView)
+        self.view.addSubview(scrollView)
         scrollView.keyboardDismissMode = .interactive
-        scrollView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalTo(self.view.safeAreaLayoutGuide)
+        }
 
         scrollView.addSubview(mainStackView)
-        mainStackView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView.contentLayoutGuide)
-            $0.width.equalTo(scrollView.frameLayoutGuide)
+        mainStackView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
         }
 
         [dateRow, sourceRow, categoryRow, amountRow, digitPadRow, noteRow, buttonRow].forEach {

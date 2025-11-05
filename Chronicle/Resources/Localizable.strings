@@ -30,11 +30,16 @@
 "transaction.source.debit_card" = "Debit Card";
 "transaction.source.credit_card" = "Credit Card";
 
+"period.day" = "Day";
+"period.week" = "Week";
+"period.month" = "Month";
+"period.year" = "Year";
+
 // MARK: - Transaction List
 
 "transaction.list.title" = "Transaction";
 
-// MARK: - Transaction New
+// MARK: - Transaction Edit
 
 "transaction.new.title" = "New Transaction";
 "transaction.edit.title" = "Edit Transaction";
@@ -44,3 +49,6 @@
 "transaction.new.amount.title" = "Amount";
 "transaction.new.note.title" = "Note";
 "transaction.new.save.title" = "Save";
+
+// MARK: - Stats Main
+"stats.main.title" = "Stats";

@@ -53,6 +53,16 @@ class TransactionsListViewController: BaseViewController {
         viewModel.loadTransactions()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     // MARK: - Actions
     
     @objc private func startTransactionNew() {
@@ -62,7 +72,6 @@ class TransactionsListViewController: BaseViewController {
     // MARK: - Setup
 
     private func setupView() {
-        self.title = String(localized: "transaction.list.title")
         self.view.backgroundColor = .systemBackground
         
         self.view.addSubview(tableView)

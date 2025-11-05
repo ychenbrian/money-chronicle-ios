@@ -9,8 +9,8 @@ class StatsCoordinator: Coordinator {
     }
 
     func start() {
-        let viewModel = StatsViewModel()
-        let viewController = StatsViewController(viewModel: viewModel)
+        let viewModel = StatsMainViewModel()
+        let viewController = StatsMainViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: false)
     }
 }
