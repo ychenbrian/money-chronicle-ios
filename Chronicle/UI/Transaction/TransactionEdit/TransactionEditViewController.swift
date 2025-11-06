@@ -10,6 +10,7 @@ final class TransactionEditViewController: BaseViewController {
     // MARK: - UI Components
 
     private let scrollView = UIScrollView()
+    private var deleteButton: UIBarButtonItem?
 
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -45,7 +46,7 @@ final class TransactionEditViewController: BaseViewController {
         setupView()
         setupBinding()
     }
-
+    
     // MARK: - Setup
 
     private func setupView() {
@@ -73,7 +74,22 @@ final class TransactionEditViewController: BaseViewController {
             digitPadHeight = make.height.equalTo(0).constraint
         }
         
+        setupNavBar()
         setupCallbacks()
+    }
+    
+    private func setupNavBar() {
+        guard viewModel.isEditing else { return }
+
+        deleteButton = UIBarButtonItem(
+            image: UIImage(systemName: "trash"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapDelete)
+        )
+        deleteButton?.accessibilityLabel = String(localized: "transaction.delete.accessibility")
+        deleteButton?.tintColor = .systemRed
+        navigationItem.rightBarButtonItems = [deleteButton!]
     }
     
     private func setupBinding() {
@@ -95,9 +111,9 @@ final class TransactionEditViewController: BaseViewController {
             .disposed(by: disposeBag)
 
         viewModel.event
-            .emit(onNext: { [weak self] evt in
-                switch evt {
-                case .transactionSaved:
+            .emit(onNext: { [weak self] event in
+                switch event {
+                case .transactionSaved, .transactionDeleted:
                     self?.navigationController?.popViewController(animated: true)
                 }
             })
@@ -109,7 +125,7 @@ final class TransactionEditViewController: BaseViewController {
     }
 
     private func setupCallbacks() {
-        digitPadRow.onDigit = { [weak self] d in self?.amountRow.apply(.digit(d)) }
+        digitPadRow.onDigit = { [weak self] digit in self?.amountRow.apply(.digit(digit)) }
         digitPadRow.onDecimal = { [weak self] in self?.amountRow.apply(.decimal) }
         digitPadRow.onBackspace = { [weak self] in self?.amountRow.apply(.backspace) }
         digitPadRow.onClearAll = { [weak self] in self?.amountRow.apply(.clearAll) }
@@ -122,6 +138,25 @@ final class TransactionEditViewController: BaseViewController {
             updateTransaction()
             _ = viewModel.save()
         }
+    }
+    
+    // MARK: - Action
+    
+    @objc private func didTapDelete() {
+        let alert = UIAlertController(
+            title: String(localized: "transaction.delete.title"),
+            message: String(localized: "transaction.delete.confirm"),
+            preferredStyle: .actionSheet
+        )
+        alert.addAction(UIAlertAction(title: String(localized: "common.cancel"), style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: String(localized: "common.delete"), style: .destructive, handler: { [weak self] _ in
+            self?.viewModel.deleteTransaction()
+        }))
+
+        if let pop = alert.popoverPresentationController, let button = deleteButton {
+            pop.barButtonItem = button
+        }
+        present(alert, animated: true)
     }
 
     // MARK: - Helper

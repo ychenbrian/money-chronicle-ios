@@ -3,7 +3,11 @@ import RxSwift
 import UIKit
 
 final class TransactionEditViewModel: BaseViewModel {
-    enum Event { case transactionSaved }
+    enum Event {
+        case transactionSaved
+        case transactionDeleted
+    }
+    
     enum Mode: Equatable {
         case create
         case edit(id: String)
@@ -129,5 +133,35 @@ final class TransactionEditViewModel: BaseViewModel {
             .disposed(by: disposeBag)
 
         return work
+    }
+    
+    func deleteTransaction() {
+        guard let id = mode.id else {
+            ErrorHelper.emit(ErrorHelper.make(String(localized: "transaction.error.missing.id")), to: errorRelay)
+            return
+        }
+        
+        let work = Completable.create { [repository] observer in
+            do {
+                try repository.delete(id: id)
+                observer(.completed)
+            } catch {
+                observer(.error(error))
+            }
+            return Disposables.create()
+        }
+
+        work
+            .subscribe(on: bgScheduler)
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onCompleted: { [weak self] in
+                    self?.eventRelay.accept(.transactionDeleted)
+                },
+                onError: { [weak self] in
+                    self?.errorRelay.accept($0)
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }
